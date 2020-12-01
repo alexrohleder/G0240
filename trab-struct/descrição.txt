@@ -1,0 +1,91 @@
+09/11
+Trabalho:
+Construir um sistema que gerencie as notas dos alunos. Cada aluno é definido pelo seu nome (char[50]), matricula (int), nota G1 e nota G2 (float).
+O programa deve:
+-Solicitar a quantidade de alunos
+-Permitir preencher as informações nome e matrícula de todos alunos
+-Permitir preencher a nota G1
+-Permitir preencher a nota G2
+-Listar todos alunos com sua respectiva média
+-Listar apenas os alunos em exame (nota >= 4 e nota < 7)
+-Listar os alunos reprovados
+-Listar os alunos aprovados
+-Mostrar o aluno com a maior média
+-Mostrar a média de nota dos alunos aprovados
+
+__________________________________________________________________________________________________________________
+16/11
+Continuação:
+-Criar um menu com opções para os item acima.
+-Adicionar a opção "Salvar em arquivo", onde solicita o nome do arquivo a ser criado e adiciona as informações da turma no arquivo seguindo o seguinte formato:
+MATRICULA do aluno 0|NOME do aluno 0|G1|G2 
+MATRICULA do aluno 1|NOME do aluno 1|G1|G2
+.
+.
+MATRICULA do aluno N|NOME do aluno N|G1|G2
+*atente que vai um aluno em cada linha, e a separação das informações é feita pelo pipe '|';
+
+-Adicionar a opção "Ler do arquivo", onde solicita o nome do arquivo e lê as informações da turma armazenadas nele, criando um vetor da estrutura Aluno, com os dados de cada aluno já preenchidos.
+
+Instruções:
+- Pode-se utilizar as seguintes funções:
+
+FILE * fopen(char * filename, char * mode)
+//abre o arquivo
+Retorno: ponteiro para arquivo ou NULL em caso de erro
+filename: caminho\nome do arquivo. estando na mesma pasta do programa basta usar o nome
+mode: tipo de acesso 
+      r para apenas leitura. 
+      w para escrita - cria o arquivo caso não exista, apaga o arquivo caso já exista.
+      a para escrita - adiciona texto ao final do arquivo, caso já exista
+      r+ para leitura e escrita. 
+      a+ para leitura desde o inicio do arquivo e escrita para anexar ao fim
+
+int fclose(FILE * fp)
+//fecha o arquivo
+Retorno: 0 em caso de sucesso
+fp: ponteiro para o arquivo aberto anteriormente
+
+int fputs(char * str, FILE * fp)
+//escreve a string str no arquivo
+Retorno: >-1 para sucesso
+str: string para ser escrita no arquivo
+fp: ponteiro para o arquivo aberto anteriormente
+
+char * fgets(char * buf, int n, FILE * fp )
+//copia, no máximo n caracteres ou até o fim da linha, para o buffer buf
+Retorno: ponteiro para o primeiro caracter lido
+buff: ponteiro para um vetor de caracteres
+n: quantidade de caracteres que deseja ler
+fp: ponteiro para o arquivo aberto anteriormente
+
+
+
+exemplo escrita:
+main() {
+   FILE *fp;
+   char buff[50];
+   int t=0;
+   fp = fopen("test.txt", "w");
+   while(t<3){
+   		strcpy( buff,"linha\n");
+ 	  	fputs(buff,fp);
+ 	  	printf("%s",buff);
+ 	  	system("PAUSE");
+ 	  	t++;
+   }
+   fclose(fp);
+}
+
+exemplo leitura:
+main() {
+   FILE *fp;
+   char buff[50];
+   fp = fopen("test.txt", "r");
+   while(!feof(fp)){   		
+ 	  	fgets(buff,50,fp);
+ 	  	printf("%s",buff);
+ 	  	system("PAUSE"); 	  	
+   }
+   fclose(fp);
+}
