@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct Aluno {
   char nome[50];
@@ -63,6 +64,42 @@ void salvar_arquivo(int quantidade, struct Aluno alunos[]) {
   printf("arquivo salvo em: ./resultado.txt\n");
 }
 
+void le_arquivo() {
+  char nomeDoArquivo[50];
+
+  printf("insira o nome do arquivo: ");
+  scanf("%s", nomeDoArquivo);
+
+  FILE *arquivo = fopen(nomeDoArquivo, "w");
+
+  if (arquivo == NULL) {
+    printf("erro ao abrir arquivo.\n");
+    return;
+  }
+
+  char linha[124];
+
+  int quantidade;
+  // struct Alunos alunos[];
+
+  while (!feof(arquivo)) {
+    fgets(linha, 124, arquivo);
+
+    char separator[] = "\t|\t";
+    struct Aluno aluno;
+
+    aluno.matricula = atoi(strtok(linha, separator));
+    strncpy(aluno.nome, strtok(NULL, separator), 50);
+    aluno.g1 = atoi(strtok(NULL, separator));
+    aluno.g2 = atoi(strtok(NULL, separator));
+
+    printf("%s", aluno.nome);
+  }
+
+  fclose(arquivo);
+  // mostra_menu(quantidade, alunos);
+}
+
 void mostrar_menu(int quantidade, struct Aluno alunos[]) {
   char opcao;
 
@@ -72,7 +109,6 @@ void mostrar_menu(int quantidade, struct Aluno alunos[]) {
   printf("\nc - listar os alunos reprovados");
   printf("\nd - listar os alunos aprovados");
   printf("\ne - salvar arquivo");
-  printf("\nq - sair");
   printf("\n");
   scanf(" %c", &opcao);
 
@@ -92,8 +128,6 @@ void mostrar_menu(int quantidade, struct Aluno alunos[]) {
     case 'e':
       salvar_arquivo(quantidade, alunos);
       break;
-    case 'q':
-      return;
     default:
       printf("opção invalida.\n");
       break;
@@ -104,28 +138,43 @@ void mostrar_menu(int quantidade, struct Aluno alunos[]) {
 
 int main()
 {
+  char opcao;
   int quantidade;
 
-  printf("quantos alunos você tem? ");
-  scanf("%d", &quantidade);
+  printf("Escolha uma das opções a baixo:");
+  printf("\na - inserir alunos manualmente");
+  printf("\nb - ler de arquivo");
+  printf("\n");
+  scanf(" %c", &opcao);
 
-  struct Aluno alunos[quantidade];
+  if (opcao == 'a') {
+    printf("quantos alunos você tem? ");
+    scanf("%d", &quantidade);
 
-  for (int i = 0; i < quantidade; i++) {
-    printf("%d - insira o nome: ", i + 1);
-    scanf("%s", alunos[i].nome);
-    
-    printf("%d - insira a matrícula: ", i + 1);
-    scanf("%d", &alunos[i].matricula);
-    
-    printf("%d - insira a nota da G1: ", i + 1);
-    scanf("%d", &alunos[i].g1);
-    
-    printf("%d - insira a nota da G2: ", i + 1);
-    scanf("%d", &alunos[i].g2);
+    struct Aluno alunos[quantidade];
+
+    for (int i = 0; i < quantidade; i++) {
+      printf("%d - insira o nome: ", i + 1);
+      scanf("%s", alunos[i].nome);
+      
+      printf("%d - insira a matrícula: ", i + 1);
+      scanf("%d", &alunos[i].matricula);
+      
+      printf("%d - insira a nota da G1: ", i + 1);
+      scanf("%d", &alunos[i].g1);
+      
+      printf("%d - insira a nota da G2: ", i + 1);
+      scanf("%d", &alunos[i].g2);
+    }
+
+    mostrar_menu(quantidade, alunos);
+  } else {
+    if (opcao == 'b') {
+      le_arquivo();
+    } else {
+      printf("opção inválida.");
+    }
   }
-
-  mostrar_menu(quantidade, alunos);
 
   printf("\n\n");
   return 0;
