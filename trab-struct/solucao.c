@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct Aluno {
   char nome[50];
@@ -43,6 +44,25 @@ void listar_alunos_aprovados(int quantidade, struct Aluno alunos[]) {
   }
 }
 
+void salvar_arquivo(int quantidade, struct Aluno alunos[]) {
+  FILE *arquivo = fopen("resultado.txt", "w");
+
+  if (arquivo == NULL) {
+    printf("erro ao abrir arquivo.\n");
+    return;
+  }
+
+  for (int i = 0; i < quantidade; i++) {
+    char linha[124];
+    snprintf(linha, 124, "%d\t|\t%s\t|\t%d\t|\t%d", alunos[i].matricula , alunos[i].nome , alunos[i].g1 , alunos[i].g2);
+    fputs(linha, arquivo);
+  }
+
+  fputs("\n", arquivo);
+  fclose(arquivo);
+  printf("arquivo salvo em: ./resultado.txt\n");
+}
+
 void mostrar_menu(int quantidade, struct Aluno alunos[]) {
   char opcao;
 
@@ -51,6 +71,7 @@ void mostrar_menu(int quantidade, struct Aluno alunos[]) {
   printf("\nb - listar apenas os alunos em exame (nota >= 4 e nota < 7)");
   printf("\nc - listar os alunos reprovados");
   printf("\nd - listar os alunos aprovados");
+  printf("\ne - salvar arquivo");
   printf("\nq - sair");
   printf("\n");
   scanf(" %c", &opcao);
@@ -67,6 +88,9 @@ void mostrar_menu(int quantidade, struct Aluno alunos[]) {
       break;
     case 'd':
       listar_alunos_aprovados(quantidade, alunos);
+      break;
+    case 'e':
+      salvar_arquivo(quantidade, alunos);
       break;
     case 'q':
       return;
