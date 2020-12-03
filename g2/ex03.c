@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "ex02.h"
 
 int main()
 {
-  struct Casa casas[5];
+  struct Casa *casas = malloc(sizeof(struct Casa) * 5);
 
   for (int i = 0; i < 5; i++)
   {

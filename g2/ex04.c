@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "ex02.h"
 
 void preencher_casas(struct Casa *casas, int tamanho)
@@ -22,7 +23,7 @@ void preencher_casas(struct Casa *casas, int tamanho)
 int main()
 {
   int tamanho = 2;
-  struct Casa casas[tamanho];
+  struct Casa *casas = malloc(sizeof(struct Casa) * tamanho);
 
   preencher_casas(casas, tamanho);
 
